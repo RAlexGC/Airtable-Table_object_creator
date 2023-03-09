@@ -8,13 +8,21 @@ import {
   FieldPicker,
 } from "@airtable/blocks/ui";
 import React, { useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import "./Selector.scss";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Selector = () => {
   const [buttonStatus, setButton] = useState(false);
   const [table, setTable] = useState(null);
   const [field, setField] = useState(null);
   const [fields, setFields] = useState([]);
+  const [fieldsStr, setFieldsStr] = useState("");
+  const tableObjectStr = `// Table Object${""}\nconst ${table?.name.replace(
+    / /g,
+    ""
+  )} = {\ntable: base.getTable('${table?.id}'),\nfields: {\n${fieldsStr}}}`;
 
   const tableSelected = (newTable) => {
     const tableInfo = base.getTableByIdIfExists(newTable._id);
@@ -31,18 +39,36 @@ const Selector = () => {
 
   const addField = () => {
     const updatedField = [{ name: field.name.replace(/ /g, ""), id: field.id }];
-    setFields((fields) => [...fields, ...updatedField]);
+    const updatedFields = [...fields, ...updatedField];
+    setFields(updatedFields);
+    let str = "";
+    updatedFields.forEach(
+      (field) => (str = str + "\t" + field.name + ": '" + field.id + "',\n")
+    );
+    setFieldsStr(str);
   };
 
   const removeField = () => {
     const filteredFields = fields.filter((fld) => fld.id != field.id);
     setFields(filteredFields);
+    let str = "";
+    filteredFields.forEach(
+      (field) => (str = "\t" + str + field.name + ": '" + field.id + "',\n")
+    );
+    setFieldsStr(str);
   };
 
   const clear = () => {
     setTable(null);
     setField(null);
+    setButton(false);
     setFields([]);
+  };
+
+  const copy = () => {
+    toast.success("Copied!", {
+      position: toast.POSITION.BOTTOM_CENTER,
+    });
   };
 
   return (
@@ -76,6 +102,17 @@ const Selector = () => {
         >
           Remove field
         </Button>
+        <CopyToClipboard text={tableObjectStr}>
+          <Button
+            variant="default"
+            disabled={!buttonStatus}
+            marginLeft={2}
+            onClick={() => copy()}
+          >
+            Copy to clipboard
+          </Button>
+        </CopyToClipboard>
+        <ToastContainer autoClose={1000} hideProgressBar />
         <Button variant="default" onClick={() => clear()} marginLeft={2}>
           Clear
         </Button>
@@ -90,6 +127,7 @@ const Selector = () => {
         marginTop={1}
         height={300}
         overflow="hidden"
+        id="code"
       >
         {table ? (
           <Text>
