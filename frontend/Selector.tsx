@@ -112,10 +112,10 @@ const Selector = () => {
             Copy to clipboard
           </Button>
         </CopyToClipboard>
-        <ToastContainer autoClose={1000} hideProgressBar />
         <Button variant="default" onClick={() => clear()} marginLeft={2}>
           Clear
         </Button>
+        <ToastContainer autoClose={1000} hideProgressBar />
       </div>
       <Text marginTop={2} size="large">
         Code
