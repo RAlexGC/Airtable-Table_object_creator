@@ -1,15 +1,3 @@
-# InAir Studio React-Bootstrap Custom App Starter
+# InAir Studio Table Object Generator (Airtable Custom Extension)
 
-A template for Airtable Custom Apps using React-Bootstrap, in addition to TypeScript and Sass.
-
-## Bootstrap Icons
-
-In React-Bootstrap, and especially in Airtable custom apps, using Bootstrap icons can be a bit tricky. One easy way to do it is by using the library `react-bootstrap-icons`.
-
-Than you may use icons like this:
-
-    // Create a button with a Plus icon
-    <Button size="sm" style={{display: 'flex', alignItems: 'center', margin: '.5rem .1rem'}} type="submit">
-        <Plus size={20} />
-        Add
-    </Button>
+A custom extension for Airtable to generate the code for a Table Object adding the required fields, then you can just copy and paste the code wherever you need it (scripting extension or automation script).
