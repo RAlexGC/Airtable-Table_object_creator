@@ -19,7 +19,7 @@ const Selector = () => {
   const [field, setField] = useState(null);
   const [fields, setFields] = useState([]);
   const [fieldsStr, setFieldsStr] = useState("");
-  const tableObjectStr = `// Table Object${""}\nconst ${table?.name.replace(
+  const tableObjectStr = `const ${table?.name.replace(
     / /g,
     ""
   )} = {\ntable: base.getTable('${table?.id}'),\nfields: {\n${fieldsStr}}}`;
@@ -131,8 +131,6 @@ const Selector = () => {
       >
         {table ? (
           <Text>
-            {"// Table Object"}
-            <br />
             {`const ${table?.name.replace(/ /g, "")} = {`}
             <br />
             {`table: base.getTable('${table?.id}'),`}
